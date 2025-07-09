@@ -29,5 +29,19 @@ A secure and user-friendly online voting platform built with **Python Flask**, *
 ---
 
 ## 📂 Project Structure
+/voting-app
+│
+├── templates/
+│ ├── login.html
+│ ├── vote.html
+│ ├── result.html
+│ ├── thanks.html
+│ └── admin.html
+│
+├── static/ # Optional static folder
+│
+├── app.py # Main Flask server
+├── requirements.txt
+└── README.md
 
 
