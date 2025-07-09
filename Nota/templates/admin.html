@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | MyProduct</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <style>
+        :root {
+            --sidebar-bg: #1e293b;
+            --main-bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-primary: #334155;
+            --text-secondary: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-orange: #f97316;
+            --accent-red: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes progressBarFill {
+            from { width: 0%; }
+            to { width: var(--progress-width); }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-primary);
+            display: flex;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: fixed;
+            z-index: 10;
+        }
+        .sidebar-header {
+            padding: 20px;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-nav { flex-grow: 1; list-style: none; padding: 20px 0; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 25px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .sidebar-nav a.active, .sidebar-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-left: 3px solid var(--accent-blue);
+        }
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .logout-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+        .logout-btn:hover { background-color: #dc2626; }
+        .sidebar-nav i { width: 20px; text-align: center; }
+
+        /* --- Main Content --- */
+        .main-content {
+            margin-left: 260px; /* Same as sidebar width */
+            width: calc(100% - 260px);
+            padding: 30px;
+        }
+        .main-header h1 { font-size: 28px; font-weight: 600; margin-bottom: 5px; }
+        .main-header p { color: var(--text-secondary); margin-bottom: 30px; }
+
+        /* --- Stats Grid --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card .icon { font-size: 24px; padding: 15px; border-radius: 50%; }
+        .stat-card .icon.blue { background-color: #dbeafe; color: var(--accent-blue); }
+        .stat-card .icon.green { background-color: #dcfce7; color: var(--accent-green); }
+        .stat-card .icon.orange { background-color: #ffedd5; color: var(--accent-orange); }
+        .stat-card .title { font-size: 14px; color: var(--text-secondary); }
+        .stat-card .value { font-size: 24px; font-weight: 700; }
+
+        /* --- Panel Cards --- */
+        .panel-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .panel-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        .panel-grid > div:nth-child(1) { animation-delay: 0.4s; }
+        .panel-grid > div:nth-child(2) { animation-delay: 0.5s; }
+        .panel-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .panel-header h2 { font-size: 20px; font-weight: 600; }
+
+        /* --- Results Panel --- */
+        .result-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .result-info { width: 150px; flex-shrink: 0; }
+        .result-info .name { font-weight: 600; }
+        .result-info .votes { font-size: 14px; color: var(--text-secondary); }
+        .result-bar-container { flex-grow: 1; background-color: var(--main-bg); border-radius: 8px; overflow: hidden; height: 28px; }
+        .result-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 10px;
+            font-size: 14px;
+            font-weight: 600;
+            animation: progressBarFill 1s ease-out forwards;
+        }
+
+        /* --- Manage Panel --- */
+        .add-form { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-form input { flex-grow: 1; padding: 10px 15px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: 'Poppins', sans-serif; transition: all 0.2s ease; }
+        .add-form input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        .add-form button { padding: 10px 20px; border: none; border-radius: 8px; background-color: var(--accent-blue); color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .add-form button:hover { background-color: #2563eb; }
+        
+        .candidate-list { list-style: none; }
+        .candidate-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-radius: 8px; transition: background-color 0.2s ease; }
+        .candidate-item:hover { background-color: #f8fafc; }
+        .candidate-item .candidate-name { font-weight: 500; }
+        .candidate-item .delete-btn { color: var(--text-secondary); font-size: 16px; text-decoration: none; transition: all 0.2s ease; }
+        .candidate-item .delete-btn:hover { color: var(--accent-red); transform: scale(1.2); }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">MyProduct</div>
+        <ul class="sidebar-nav">
+            <li><a href="#" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Dashboard</h1>
+            <p>Welcome back, Admin! Here's an overview of the election.</p>
+        </header>
+
+        <!-- BACKEND NOTE: Pass these values from Flask -->
+        {% set total_candidates = candidates | length %}
+        {% set leading_candidate = candidates | max(attribute='votes') if candidates else None %}
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon blue"><i class="fa-solid fa-person-booth"></i></div>
+                <div>
+                    <div class="title">Total Votes</div>
+                    <div class="value">{{ total_votes }}</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon green"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <div class="title">Total Candidates</div>
+                    <div class="value">{{ total_candidates }}</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon orange"><i class="fa-solid fa-trophy"></i></div>
+                <div>
+                    <div class="title">Leading Candidate</div>
+                    <div class="value">{{ leading_candidate['name'] if leading_candidate else 'N/A' }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-grid">
+            <div class="panel-card">
+                <div class="panel-header"><h2>Voting Results</h2></div>
+                <div class="results-list">
+                    {% for c in candidates %}
+                        <div class="result-item">
+                            <div class="result-info">
+                                <div class="name">{{ c['name'] }}</div>
+                                <div class="votes">{{ c['votes'] }} Votes</div>
+                            </div>
+                            <div class="result-bar-container">
+                                {% set percentage = (c['votes'] / total_votes * 100) if total_votes > 0 else 0 %}
+                                <div class="result-bar" style="--progress-width: {{ percentage }}%;">
+                                    {{ '%.1f'|format(percentage) }}%
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="panel-card">
+                <div class="panel-header"><h2>Manage Candidates</h2></div>
+                <form class="add-form" method="POST" action="/admin/add">
+                    <input type="text" name="name" placeholder="New candidate name..." required>
+                    <button type="submit">Add</button>
+                </form>
+                <ul class="candidate-list">
+                    {% for c in candidates %}
+                        <li class="candidate-item">
+                            <span class="candidate-name">{{ c['name'] }}</span>
+                            <a href="/admin/delete/{{ c['_id'] }}" class="delete-btn" title="Delete Candidate">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cast Your Vote | Student Elections 2025</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <style>
+        /* --- Universal Styles & Resets --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float-symbol {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8); /* Added scale for more dynamic floating */
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-50vh) rotate(360deg) scale(1.1); /* Scale up mid-animation */
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg) scale(0.9); /* Scale down at end */
+                opacity: 0;
+            }
+        }
+        
+        @keyframes slide-in-down {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slide-in-up {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shine {
+            0% { left: -75%; }
+            20% { left: 125%; } /* Move across the card */
+            100% { left: 125%; } /* Stay off-screen until next cycle */
+        }
+
+        /* --- Main Body & Background --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            color: #fff; /* Text color for the main body */
+            background: linear-gradient(-45deg, #0d324d, #7f5a83, #0d324d, #7f5a83); /* Election-themed gradient */
+            background-size: 400% 400%;
+            animation: gradient-animation 20s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Important for the floating symbols */
+            position: relative;
+            padding: 20px;
+        }
+
+        /* --- Floating Symbols Container --- */
+        .background-symbols {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .background-symbols .symbol {
+            position: absolute;
+            display: block;
+            list-style: none;
+            bottom: -150px; /* Start below the screen */
+            animation: float-symbol 25s linear infinite;
+        }
+        
+        /* Style the icons inside the symbols */
+        .background-symbols .symbol i {
+            color: rgba(255, 255, 255, 0.15); /* Transparent white for subtle effect */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Unique properties for each symbol to create variety */
+        .background-symbols .symbol:nth-child(1) { left: 25%; animation-delay: 0s; }
+        .background-symbols .symbol:nth-child(1) i { font-size: 80px; }
+        
+        .background-symbols .symbol:nth-child(2) { left: 10%; animation-delay: 2s; animation-duration: 12s; }
+        .background-symbols .symbol:nth-child(2) i { font-size: 20px; }
+
+        .background-symbols .symbol:nth-child(3) { left: 70%; animation-delay: 4s; }
+        .background-symbols .symbol:nth-child(3) i { font-size: 30px; }
+
+        .background-symbols .symbol:nth-child(4) { left: 40%; animation-delay: 0s; animation-duration: 18s; }
+        .background-symbols .symbol:nth-child(4) i { font-size: 60px; }
+
+        .background-symbols .symbol:nth-child(5) { left: 65%; animation-delay: 0s; animation-duration: 20s; }
+        .background-symbols .symbol:nth-child(5) i { font-size: 25px; }
+
+        .background-symbols .symbol:nth-child(6) { left: 75%; animation-delay: 3s; }
+        .background-symbols .symbol:nth-child(6) i { font-size: 110px; }
+
+        .background-symbols .symbol:nth-child(7) { left: 35%; animation-delay: 7s; animation-duration: 30s; }
+        .background-symbols .symbol:nth-child(7) i { font-size: 150px; }
+
+        .background-symbols .symbol:nth-child(8) { left: 50%; animation-delay: 15s; animation-duration: 45s; }
+        .background-symbols .symbol:nth-child(8) i { font-size: 25px; }
+
+        .background-symbols .symbol:nth-child(9) { left: 20%; animation-delay: 2s; animation-duration: 35s; }
+        .background-symbols .symbol:nth-child(9) i { font-size: 15px; }
+
+        .background-symbols .symbol:nth-child(10) { left: 85%; animation-delay: 0s; animation-duration: 11s; }
+        .background-symbols .symbol:nth-child(10) i { font-size: 150px; }
+
+        /* --- Main Card (Renamed to form-card) --- */
+        .form-card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 500px; /* Adjusted max-width for voting options */
+            padding: 40px 30px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            overflow: hidden; /* Important for the shine effect */
+        }
+
+        /* Shine effect for the card */
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%; /* Start off-screen to the left */
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-20deg); /* Skew to create a diagonal shine */
+            animation: shine 3s infinite ease-in-out; /* Adjust timing as needed */
+            animation-delay: 2s; /* Delay before it starts */
+            pointer-events: none; /* Ensure it doesn't interfere with clicks */
+        }
+
+        /* --- Entrance Animations for Card Elements --- */
+        /* All elements that should animate in and stay visible */
+        .form-card h2,
+        .form-card p,
+        .form-card .input-group, 
+        .form-card .action-btn, 
+        .form-card .footer-link,
+        .form-card .toggle-btn { /* Added toggle-btn to animation */
+            opacity: 0; /* Initial state for animation */
+            animation-fill-mode: forwards; /* Ensures the animation's final state persists */
+        }
+
+        .form-card h2 { 
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff; /* Heading color for contrast against dark background */
+            animation: slide-in-down 0.5s ease-out 0.3s forwards;
+        }
+
+        .form-card p { 
+            margin-bottom: 30px;
+            color: #eee; /* Paragraph color */
+            animation: slide-in-down 0.5s ease-out 0.5s forwards;
+        }
+
+        /* --- Input Fields & Icons --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            animation: slide-in-up 0.5s ease-out;
+        }
+        .input-group:nth-of-type(1) { animation-delay: 0.7s; }
+        .input-group:nth-of-type(2) { animation-delay: 0.9s; }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s ease;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input::placeholder { color: rgba(255, 255, 255, 0.7); }
+
+        .input-group input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 4px rgba(35, 213, 171, 0.5); /* More vibrant focus glow */
+        }
+
+        .input-group input:focus + i { color: #fff; }
+        
+        /* --- Button --- */
+        .action-btn { 
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #23a6d5, #23d5ab); /* Blue-green gradient for button */
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(35, 213, 171, 0.4); /* Greenish shadow for button */
+            animation: slide-in-up 0.5s ease-out 1.1s forwards; 
+        }
+
+        .action-btn:hover { 
+            background: linear-gradient(90deg, #23d5ab, #23a6d5); /* Reverse gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(35, 213, 171, 0.6); /* Stronger shadow on hover */
+        }
+
+        .action-btn:active { 
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* --- Links & Footer --- */
+        .footer-link { 
+            margin-top: 25px;
+            font-size: 14px;
+            animation: slide-in-up 0.5s ease-out 1.3s forwards; 
+        }
+
+        .footer-link p { color: #eee; margin-bottom: 0; } 
+
+        .footer-link a { 
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-link a:hover { text-decoration: underline; } 
+
+        /* --- New styles for the toggle button and admin form --- */
+        .toggle-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: slide-in-up 0.5s ease-out 1.5s forwards; /* Animation for the toggle button */
+        }
+
+        .toggle-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .admin-btn {
+            background: linear-gradient(90deg, #e73c7e, #ee7752); /* Different gradient for admin button */
+            box-shadow: 0 4px 15px rgba(231, 60, 126, 0.4);
+        }
+
+        .admin-btn:hover {
+            background: linear-gradient(90deg, #ee7752, #e73c7e);
+            box-shadow: 0 6px 25px rgba(231, 60, 126, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <ul class="background-symbols">
+        <li class="symbol"><i class="fa-solid fa-box-ballot"></i></li>
+        <li class="symbol"><i class="fa-solid fa-star"></i></li>
+        <li class="symbol"><i class="fa-solid fa-check-to-slot"></i></li>
+        <li class="symbol"><i class="fa-solid fa-hand-fist"></i></li>
+        <li class="symbol"><i class="fa-solid fa-flag"></i></li>
+        <li class="symbol"><i class="fa-solid fa-star"></i></li>
+        <li class="symbol"><i class="fa-solid fa-box-ballot"></i></li>
+        <li class="symbol"><i class="fa-solid fa-check-to-slot"></i></li>
+        <li class="symbol"><i class="fa-solid fa-hand-fist"></i></li>
+        <li class="symbol"><i class="fa-solid fa-star"></i></li>
+    </ul>
+
+    <div class="form-card">
+        <h2 id="form-title">Student Elections 2025</h2>
+        <p id="form-subtitle">Cast your vote and make a difference!</p>
+        
+        <div id="student-form-container">
+            <form id="student-login-form" method="post">
+                <div class="input-group">
+                    <input type="text" id="studentemail" name="studentEmail" required placeholder="Student Email / ID">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="studentpassword" name="studentPassword" required placeholder="PIN / Password">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+
+                <button type="submit" class="action-btn">Proceed to Vote</button>
+            </form>
+            
+            <div class="footer-link">
+                <p>Need assistance? <a href="/contact-election-committee">Contact election committee</a></p>
+            </div>
+        </div>
+
+        <div id="admin-form-container" style="display: none;">
+            <form id="admin-login-form" method="post">
+                <div class="input-group">
+                    <input type="text" id="adminusername" name="adminUsername" required placeholder="Admin Username">
+                    <i class="fa-solid fa-user-shield"></i> <!-- Admin icon -->
+                </div>
+                <div class="input-group">
+                    <input type="password" id="adminpassword" name="adminPassword" required placeholder="Admin Password">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <button type="submit" class="action-btn admin-btn">Admin Login</button>
+            </form>
+            <div class="footer-link">
+                <p>Forgot admin password? <a href="/admin-reset-password">Reset here</a></p>
+            </div>
+        </div>
+
+        <button id="toggle-form-btn" class="toggle-btn">Switch to Admin Login</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentFormContainer = document.getElementById('student-form-container');
+            const adminFormContainer = document.getElementById('admin-form-container');
+            const toggleFormBtn = document.getElementById('toggle-form-btn');
+            const formTitle = document.getElementById('form-title');
+            const formSubtitle = document.getElementById('form-subtitle');
+
+            let isStudentFormActive = true;
+
+            toggleFormBtn.addEventListener('click', () => {
+                if (isStudentFormActive) {
+                    studentFormContainer.style.display = 'none';
+                    adminFormContainer.style.display = 'block';
+                    formTitle.textContent = 'Admin Login';
+                    formSubtitle.textContent = 'Access the election dashboard.';
+                    toggleFormBtn.textContent = 'Switch to Student Login';
+                } else {
+                    studentFormContainer.style.display = 'block';
+                    adminFormContainer.style.display = 'none';
+                    formTitle.textContent = 'Student Elections 2025';
+                    formSubtitle.textContent = 'Cast your vote and make a difference!';
+                    toggleFormBtn.textContent = 'Switch to Admin Login';
+                }
+                isStudentFormActive = !isStudentFormActive;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<h2>Voting Results</h2>
+<ul>
+  {% for name, count in results.items() %}
+    <li>{{ name }}: {{ count }} votes</li>
+  {% endfor %}
+</ul>
+<a href="/logout">Logout</a>
